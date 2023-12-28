@@ -23,6 +23,8 @@ const Home = () => {
         <div className="home">
             {/* props are used to pass data from the parent component to the child component. Parent-Home. Child-BlogList */}
             <BlogList blogs={blogs} title="All Blogs!"></BlogList>
+            <BlogList blogs={blogs.filter((blog)=>blog.author === 'mario')} title="Mario's Blogs!"></BlogList>{/* used to filter a certain author's blog */}
+
             {/* <h2>Homepage</h2>
             <p>{name} is {age} years old</p>
             <button onClick={handleClick}>Click Me</button> */}
