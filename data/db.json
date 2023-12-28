@@ -1,0 +1,17 @@
+{
+    "blogs":[
+        {
+            "title":"My first blog",
+            "body":"Why do we use it?\n It is a long established fact that a reader will be discrated",
+            "author":"mario",
+            "id":1
+        },
+
+        {
+            "title":"My first blog",
+            "body":"Why do we use it?\n It is a long established fact that a reader will be discrated",
+            "author":"yoshi",
+            "id":2
+        }
+    ]
+}

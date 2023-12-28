@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import BlogList from "./Bloglist";
 const Home = () => {
-    const [blogs, setBlogs]= useState([
-        {title: 'My new Website', body: 'lorem ipsum...', author:'mario', id: 1},
-        {title: 'Welcome Party', body: 'lorem ipsum...', author:'luigi', id: 2},
-        {title: 'Web dev top tips', body: 'lorem ipsum...', author:'yoshi', id: 3}
-    ]);
+    const [blogs, setBlogs]= useState(null);
 
-    const handleDelete=(id)=>{
-        const newBlogs= blogs.filter(blog=>blog.id !==id);
-        setBlogs(newBlogs);
-    };
+    // const handleDelete=(id)=>{
+    //     const newBlogs= blogs.filter(blog=>blog.id !==id);
+    //     setBlogs(newBlogs);
+    // };
 
     useEffect(()=>{
-        console.log('use effect ran');
+        fetch('http://localhost:8000/blogs') //fetches the blogs from the json server
+        .then(res =>{
+            return res.json();
+        })
+        .then(data=> {
+            console.log(data);
+            setBlogs(data);
+        })
     },[]); //changes for every render on the DOM
 
 
@@ -31,9 +34,8 @@ const Home = () => {
         //use state hook makes a value reactive
         <div className="home">
             {/* props are used to pass data from the parent component to the child component. Parent-Home. Child-BlogList */}
-            <BlogList blogs={blogs} title="All Blogs!" handleDelete={handleDelete}></BlogList>
-            <BlogList blogs={blogs.filter((blog)=>blog.author === 'mario')} title="Mario's Blogs!"></BlogList>{/* used to filter a certain author's blog */}
-             <button onClick={()=>setName('luigi')}>Change name</button>
+            {blogs && <BlogList blogs={blogs} title="All Blogs!"></BlogList>}
+            {/* <BlogList blogs={blogs.filter((blog)=>blog.author === 'mario')} title="Mario's Blogs!"></BlogList> used to filter a certain author's blog */}
             {/* <h2>Homepage</h2>
             <p>{name} is {age} years old</p>
             <button onClick={handleClick}>Click Me</button> */}
@@ -42,3 +44,13 @@ const Home = () => {
     );
 }
 export default Home;
+
+// Use json server--> npx json-server --watch data/db.json --port 8000
+
+/* Endpoints
+
+/blogs        GET      Fetch  Fetch all blogs
+/blogs/{id}   GET      Fetch   Fetch a single blog
+/blogs        POST     Add a new blog
+/blogs/{id)   DELETE   Delete a blog
+*/
