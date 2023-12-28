@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogList from "./Bloglist";
 const Home = () => {
     const [blogs, setBlogs]= useState([
@@ -10,7 +10,11 @@ const Home = () => {
     const handleDelete=(id)=>{
         const newBlogs= blogs.filter(blog=>blog.id !==id);
         setBlogs(newBlogs);
-    }
+    };
+
+    useEffect(()=>{
+        console.log('use effect ran');
+    },[]); //changes for every render on the DOM
 
 
     // let name= "Mario";
@@ -29,7 +33,7 @@ const Home = () => {
             {/* props are used to pass data from the parent component to the child component. Parent-Home. Child-BlogList */}
             <BlogList blogs={blogs} title="All Blogs!" handleDelete={handleDelete}></BlogList>
             <BlogList blogs={blogs.filter((blog)=>blog.author === 'mario')} title="Mario's Blogs!"></BlogList>{/* used to filter a certain author's blog */}
-
+             <button onClick={()=>setName('luigi')}>Change name</button>
             {/* <h2>Homepage</h2>
             <p>{name} is {age} years old</p>
             <button onClick={handleClick}>Click Me</button> */}
