@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BlogList from "./Bloglist";
 const Home = () => {
     const [blogs, setBlogs]= useState([
         {title: 'My new Website', body: 'lorem ipsum...', author:'mario', id: 1},
@@ -20,14 +21,8 @@ const Home = () => {
     return (
         //use state hook makes a value reactive
         <div className="home">
-            {blogs.map((blog)=>(
-                <div className="blog-preview" key={blog.id}>
-                    <h2>{blog.title}</h2>
-                    <p>Written by: {blog.author}</p>
-
-                </div>
-
-            ))}
+            {/* props are used to pass data from the parent component to the child component. Parent-Home. Child-BlogList */}
+            <BlogList blogs={blogs} title="All Blogs!"></BlogList>
             {/* <h2>Homepage</h2>
             <p>{name} is {age} years old</p>
             <button onClick={handleClick}>Click Me</button> */}
