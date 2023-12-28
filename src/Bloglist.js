@@ -1,4 +1,4 @@
-const BlogList = ({blogs,title}) => { //write which elements you want displayed using props; the blogs and title
+const BlogList = ({blogs,title, handleDelete}) => { //write which elements you want displayed using props; the blogs and title
     // const blogs=props.blogs;
     // const title=props.title;
 
@@ -9,6 +9,7 @@ const BlogList = ({blogs,title}) => { //write which elements you want displayed 
                 <div className="blog-preview" key={blog.id}>
                     <h2>{blog.title}</h2>
                     <p>Written by: {blog.author}</p>
+                    <button onClick={()=>handleDelete(blog.id)}>Delete blog</button>
 
                 </div>
             ))};
