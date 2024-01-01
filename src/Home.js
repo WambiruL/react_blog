@@ -1,41 +1,15 @@
 import { useState, useEffect } from "react";
 import BlogList from "./Bloglist";
+import useFetch from "./usefetch"; //our custom hook
+
 const Home = () => {
-    const [blogs, setBlogs]= useState(null);
-    const [isPending, setIsPending]= useState(true); //places a lading message
-    const [error, setError]= useState(null);
+    const {data:blogs, isPending, error} = useFetch('http://localhost:8000/blogs');
     // const handleDelete=(id)=>{
     //     const newBlogs= blogs.filter(blog=>blog.id !==id);
     //     setBlogs(newBlogs);
     // };
 
-    useEffect(()=>{
-        setTimeout(()=>{
-            fetch('http://localhost:8000/blogs') //fetches the blogs from the json server
-            
-            .then(res =>{
-                console.log(res);
-                if(!res.ok){  //if response does not even an 'okay' status, theor the error
-                    throw Error('Could not fetch the data for that resource'); //throws the error
-                }
-
-                return res.json();
-            })
-            .then(data=> {
-                console.log(data);
-                setBlogs(data);
-                setIsPending(false); 
-                setError(null);
-            })
-            .catch(err =>{
-                setIsPending(false);
-                setError(err.message); //catches the error
-                //used for handling fetch errors
-            })
-        }, 1000); //will take one second to fetch the data
-    },[]); //changes for every render on the DOM
-
-
+   
     // let name= "Mario";
     // const[name, setName]=useState('mario'); //setName is the name that will replace Mario
     // const[age, setAge]=useState(25);
