@@ -3,7 +3,7 @@ import BlogList from "./Bloglist";
 const Home = () => {
     const [blogs, setBlogs]= useState(null);
     const [isPending, setIsPending]= useState(true); //places a lading message
-
+    const [error, setError]= useState(null);
     // const handleDelete=(id)=>{
     //     const newBlogs= blogs.filter(blog=>blog.id !==id);
     //     setBlogs(newBlogs);
@@ -12,13 +12,25 @@ const Home = () => {
     useEffect(()=>{
         setTimeout(()=>{
             fetch('http://localhost:8000/blogs') //fetches the blogs from the json server
+            
             .then(res =>{
+                console.log(res);
+                if(!res.ok){  //if response does not even an 'okay' status, theor the error
+                    throw Error('Could not fetch the data for that resource'); //throws the error
+                }
+
                 return res.json();
             })
             .then(data=> {
                 console.log(data);
                 setBlogs(data);
+                setIsPending(false); 
+                setError(null);
+            })
+            .catch(err =>{
                 setIsPending(false);
+                setError(err.message); //catches the error
+                //used for handling fetch errors
             })
         }, 1000); //will take one second to fetch the data
     },[]); //changes for every render on the DOM
@@ -37,9 +49,16 @@ const Home = () => {
     return (
         //use state hook makes a value reactive
         <div className="home">
-             {isPending && <div> Loading...</div>} {/*if the pending is true, the loading message will appear */}
+            {/* use conditional rendering on all of them */}
+
+            {error && <div>{error}</div>}   {/*if we have the value for error, it will output the error */}
+            
+            {isPending && <div> Loading...</div>} {/*if the pending is true, the loading message will appear */}
+            
             {/* props are used to pass data from the parent component to the child component. Parent-Home. Child-BlogList */}
-            {blogs && <BlogList blogs={blogs} title="All Blogs!"></BlogList>}
+            
+            {blogs && <BlogList blogs={blogs} title="All Blogs!"></BlogList>}  {/*if we have the value for blogs, it will redirect to the bloglist prop for display */}
+            
             {/* <BlogList blogs={blogs.filter((blog)=>blog.author === 'mario')} title="Mario's Blogs!"></BlogList> used to filter a certain author's blog */}
             {/* <h2>Homepage</h2>
             <p>{name} is {age} years old</p>
