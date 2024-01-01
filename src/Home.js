@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import BlogList from "./Bloglist";
 const Home = () => {
     const [blogs, setBlogs]= useState(null);
+    const [isPending, setIsPending]= useState(true); //places a lading message
 
     // const handleDelete=(id)=>{
     //     const newBlogs= blogs.filter(blog=>blog.id !==id);
@@ -9,14 +10,17 @@ const Home = () => {
     // };
 
     useEffect(()=>{
-        fetch('http://localhost:8000/blogs') //fetches the blogs from the json server
-        .then(res =>{
-            return res.json();
-        })
-        .then(data=> {
-            console.log(data);
-            setBlogs(data);
-        })
+        setTimeout(()=>{
+            fetch('http://localhost:8000/blogs') //fetches the blogs from the json server
+            .then(res =>{
+                return res.json();
+            })
+            .then(data=> {
+                console.log(data);
+                setBlogs(data);
+                setIsPending(false);
+            })
+        }, 1000); //will take one second to fetch the data
     },[]); //changes for every render on the DOM
 
 
@@ -33,6 +37,7 @@ const Home = () => {
     return (
         //use state hook makes a value reactive
         <div className="home">
+             {isPending && <div> Loading...</div>} {/*if the pending is true, the loading message will appear */}
             {/* props are used to pass data from the parent component to the child component. Parent-Home. Child-BlogList */}
             {blogs && <BlogList blogs={blogs} title="All Blogs!"></BlogList>}
             {/* <BlogList blogs={blogs.filter((blog)=>blog.author === 'mario')} title="Mario's Blogs!"></BlogList> used to filter a certain author's blog */}
