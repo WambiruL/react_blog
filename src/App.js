@@ -3,6 +3,7 @@ import Home from './Home';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Create from './Create';
 import BlogDetails from './BlogDetails';
+import NotFound from './NotFound';
 
 function App() {
 
@@ -21,8 +22,12 @@ function App() {
               <Create></Create>
             </Route>
 
-            <Route path="/blogs/:id"> {/*for the create page */}
+            <Route path="/blogs/:id"> {/*for the blog details page */}
               <BlogDetails></BlogDetails>
+            </Route>
+
+            <Route path="*"> {/*for the 404 PAGE and catches any route that does not exist */}
+              <NotFound></NotFound>
             </Route>
 
           </Switch>        
