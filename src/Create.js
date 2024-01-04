@@ -1,10 +1,11 @@
 import { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 const Create = () => {
     const[title,setTitle]=useState('');
     const[body,setBody]=useState('');
     const[author,setAuthor]=useState('mario');
     const[isPending, setIsPending]= useState(false);
+    const history=useHistory();
 
     const handleSubmit=(e)=>{
         e.preventDefault(); //prevents the page refreshing when the add blog button is pushed
@@ -19,6 +20,8 @@ const Create = () => {
         }). then(() =>{
             console.log('new blog added');
             setIsPending(false);
+           // history.go(-1); //after adding a blog it redirects the use to the previous page
+            history.push('/') //after submitting the blog, it redirects to the home page
         }) //makes a post request to the JSON file to add what has been written on the form
     }
     return (
