@@ -6,8 +6,9 @@ const useFetch=(url)=>{ //custom hooks should always start with the word use
     const [error, setError]= useState(null);
 
     useEffect(()=>{
+        const abortCont=new AbortController(); 
         setTimeout(()=>{
-            fetch(url) //fetches the blogs from the json server
+            fetch(url, {signal:abortCont.signal}) //fetches the blogs from the json server. The abortCont stops this specific fetch when we move to another page
             
             .then(res =>{
                 console.log(res);
@@ -24,12 +25,20 @@ const useFetch=(url)=>{ //custom hooks should always start with the word use
                 setError(null);
             })
             .catch(err =>{
-                setIsPending(false);
-                setError(err.message); //catches the error
-                //used for handling fetch errors
+                if(err.name=== 'AbortError'){
+                    console.log('fetch aborted')
+                }else{
+                    setIsPending(false);
+                    setError(err.message); //catches the error
+                    //used for handling fetch errors
+                }
+                
             })
+       
         }, 1000); //will take one second to fetch the data
-    },[]); //changes for every render on the DOM
+        
+        return()=>abortCont.abort(); //the cleanup function stops the fetch when we move to another page
+    },[url]); //changes for every render on the DOM
     
 
     return{data, isPending, error}

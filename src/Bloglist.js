@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const BlogList = ({blogs,title}) => { //write which elements you want displayed using props; the blogs and title
     // const blogs=props.blogs;
     // const title=props.title;
@@ -7,8 +9,12 @@ const BlogList = ({blogs,title}) => { //write which elements you want displayed 
             <h2>{title}</h2>
             {blogs.map((blog)=>(
                 <div className="blog-preview" key={blog.id}>
-                    <h2>{blog.title}</h2>
-                    <p>Written by: {blog.author}</p>
+
+                     <Link to={`/blogs/${blog.id}`}> {/*use backticks */}
+                       <h2>{blog.title}</h2>
+                       <p>Written by: {blog.author}</p>
+                    </Link>
+                    
                 </div>
             ))};
         </div>
